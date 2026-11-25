@@ -9,19 +9,18 @@ jobs:
         
       - name: Unzip Source Code
         run: |
-          unzip *.zip
-          rm *.zip
+          unzip -q -o *.zip
           
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           
       - name: Build APK
         run: |
-          PROJECT_ROOT=$(dirname $(find . -name "gradlew" | head -n 1))
-          cd $PROJECT_ROOT
+          PROJECT_ROOT=$(dirname "$(find . -name "gradlew" | head -n 1)")
+          cd "$PROJECT_ROOT"
           chmod +x gradlew
           ./gradlew assembleDebug
           
@@ -30,4 +29,3 @@ jobs:
         with:
           name: LEO-APK
           path: "**/*.apk"
-          
